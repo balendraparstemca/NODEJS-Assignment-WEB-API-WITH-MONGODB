@@ -1,0 +1,75 @@
+<html>
+<body>
+<h1>Binary search: push element in array and input search element </h1>
+<p>  <input id="num" type="number">  <span><button onclick="push()">push</button> </p>
+<div id="array"></div>
+<p  id="search" style="display:none"> <lable>search element:<lable> <input id="searchnum" type="number">  <span><button onclick="binarysearch()">Binarysearch</button> </p>
+<div id="result"></div>
+</body>
+</html>
+
+<script>
+let arr = []; 
+let arrtext='';
+var refone=document.getElementById('num');
+var reftwo=document.getElementById('search');
+var refthree=document.getElementById('searchnum');
+var reffour=document.getElementById('result');
+function push()
+{ 
+  var num=refone.value;
+  arr.push(num);
+  arrtext='<h1>array is:</h1>' + arr;
+  document.getElementById('array').innerHTML=arrtext;
+  refone.value='';
+  reftwo.style.display='block';
+  
+}
+
+
+let iterativeFunction = function (arr, x) { 
+   
+    let start=0, end=arr.length-1; 
+          
+    
+    while (start<=end){ 
+  
+      
+        let mid=Math.floor((start + end)/2); 
+   
+      
+        if (arr[mid]===x) return true; 
+  
+      
+        else if (arr[mid] < x)  
+             start = mid + 1; 
+        else
+             end = mid - 1; 
+    } 
+   
+    return false; 
+} 
+   
+
+function binarysearch()
+{
+  var  result='';
+///sorting array
+let arr1=arr.sort((num1,num2)=>
+{
+	 return num1-num2;
+})
+
+console.log(arr1);
+
+let x =refthree.value; 
+console.log(x);
+   
+if (iterativeFunction(arr1, x, 0, arr.length-1)) 
+   result="Element found!"; 
+else result="Element not found!<br>"; 
+
+reffour.innerHTML=result;
+}
+
+</script>

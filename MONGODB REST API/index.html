@@ -1,0 +1,125 @@
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html>
+  <head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <style>
+   body,html{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #e74c3c !important;
+    }
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+  </style>
+  </head>
+  <!-- Coded with love by Mutiullah Samim-->
+  <body>
+   <div class="container">
+    <br/>
+	<div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-8">
+                            <form class="card card-sm">
+                                <div class="card-body row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <i class="fas fa-search h4 text-body"></i>
+                                    </div>
+                                    <!--end of col-->
+                                    <div class="col">
+                                        <input id="search" class="form-control form-control-lg form-control-borderless" type="search" placeholder="Search topics or keywords" onkeyup="better()">
+                                    </div>
+                                    <!--end of col-->
+
+                                    <!--end of col-->
+                                </div>
+                            </form>
+							<div id="show"> </div>
+                        </div>
+                        <!--end of col-->
+                    </div>
+</div>
+<script>
+
+ var result=[];
+var restxt='';
+function getproducts()
+{   
+
+       ref=document.getElementById('search');
+	   
+console.log(ref.value);
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/find",
+        data: '{"data":"'+ ref.value +'"}',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success:function(response) {
+		if(response.length > 0)
+		{
+            result=response;
+			 result.forEach((e,i)=>
+		   {
+				
+		 restxt=restxt + "<li class='list-group-item'>"+ e.EmplyeeName + "</li>";
+		 
+
+		   })
+		}
+		else
+		{
+		restxt='not found';
+		 result=[];
+		}
+			console.log(result);
+        },
+        failure: function(response) {
+            alert(response.d);
+        }
+    });
+	
+	
+	
+		  
+		   
+		   document.getElementById('show').innerHTML="<ul class='list-group'>" + restxt + " </ul>";
+		   
+		   restxt='';
+		 result=[];
+
+
+}
+var timer;
+var better=function()
+{        
+      clearInterval(timer) ;
+   timer =setTimeout(()=>
+  {
+   getproducts();
+   },100)
+
+
+ 
+
+}
+</script>
+  </body>
+</html>
